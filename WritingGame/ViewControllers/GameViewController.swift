@@ -9,12 +9,17 @@ import UIKit
 
 class GameViewController: UIViewController {
     
-    let wordModel = WordModel()
+    var wordModel = WordModel()
     
     var timer : Timer?
     
     var timeRemaining : Int = 4
     
+    var currentRound : Int = 0
+    
+    var roundsInTotal : Int = 10
+    
+    var correctAnswers : Int = 0
     
     @IBOutlet weak var timeLabel: UILabel!
 
@@ -22,19 +27,45 @@ class GameViewController: UIViewController {
 
     @IBOutlet weak var typeText: UITextField!
     
+    @IBOutlet weak var scoreLabel: UILabel!
+    
+    @IBOutlet weak var roundsLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         typeText.becomeFirstResponder()
         
-        timeLabel?.text = "\(timeRemaining)"
-        startTimer()
-        showWord()
+        scoreLabel.text = "\(wordModel.score)"
         
-    
+        timeLabel?.text = "\(timeRemaining)"
+        
+        typeText.addTarget(self, action: #selector(checkWord), for: .editingDidEndOnExit)
+        
+        startGame()
         
     }
     
+    @objc func checkWord(){
+        wordMatch()
+    }
+    
+    func startGame(){
+        currentRound = 0
+        roundsLabel.text = "\(currentRound)"
+        correctAnswers = 0
+        startRound()
+    }
+    
+    func startRound(){
+        currentRound += 1
+        roundsLabel.text = "\(currentRound)"
+        timeRemaining = 4
+        updateTimerText()
+        showWord()
+        typeText.text = ""
+        startTimer()
+    }
     
     func showWord(){
         if let firstWord = wordModel.getRandomWord(){
@@ -42,25 +73,32 @@ class GameViewController: UIViewController {
         }
     }
     
-    func updateWord(){
-        if let nextWord = wordModel.getNextWord(){
-            wordLabel.text = nextWord
-        } else {
+    func wordMatch(){
+        
+        guard let word = wordLabel.text, let inputWord = typeText.text else {
+            return
+        }
+        
+        if word == inputWord {
+            wordModel.score += 1
+            scoreLabel.text = "\(wordModel.score)"
+            correctAnswers += 1
             
+            if currentRound < roundsInTotal {
+                stopTimer()
+                startRound()
+            } else {
+                //game over
+            }
         }
     }
-    
-    func isWordCorrect(){
-        
-        
-    }
-    
     func startTimer(){
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self else {return}
             self.timeRemaining -= 1
             if self.timeRemaining == 0 {
                 self.stopTimer()
+                self.startRound()
             }
             self.updateTimerText()
         }
@@ -76,17 +114,11 @@ class GameViewController: UIViewController {
         timer = nil
         
     }
+    
+    func endGameAndGoToResult(){
+        
+        
+    }
 }
 
 
-
-/*
- if word is correct - > continue -> restart timer ->
- else if word is wrong - > end
-  X a variable that holds the time.
-  X func that starts the timer
-  X func that ends the timer
- 
- when word is typed and correct, next word should come and score +1, when word is typed wrong, game ends.
- 
- */

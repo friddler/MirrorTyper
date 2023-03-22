@@ -10,6 +10,7 @@ import UIKit
 class ViewController: UIViewController {
     
     let gameSegue = "startGameSegue"
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +34,6 @@ class ViewController: UIViewController {
     }
     
     func startGame(){
-       
         
         
     }

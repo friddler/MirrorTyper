@@ -9,29 +9,19 @@ import Foundation
 
 class WordModel {
     
-    var listOfWords : [String] = ["Frida", "Rune", "Tuffis"]
-    var indexOfWord : Int = 0
-    var score : Int = 0
+    var listOfWords : [String] = ["Frida", "Rune", "Bosse","Nisse"]
+    var score : Int = 10
     
     
-    
-   
     func getRandomWord() -> String? {
-        let randomizedWords = listOfWords.shuffled()
-        guard let randomWord = randomizedWords.first else {
+        if listOfWords.isEmpty {
             return nil
         }
+        let randomIndex = Int.random(in: 0..<listOfWords.count)
+        let randomWord = listOfWords[randomIndex]
+        listOfWords.remove(at: randomIndex)
         return randomWord
-        
     }
-    
-    func getNextWord() -> String? {
-        if indexOfWord < listOfWords.count {
-            let nextWord = listOfWords[indexOfWord]
-            indexOfWord += 1
-            return nextWord
-        } else {
-            return nil
-        }
-    }
+
+   
 }
