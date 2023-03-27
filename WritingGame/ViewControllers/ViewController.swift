@@ -12,6 +12,9 @@ class ViewController: UIViewController {
     let gameSegue = "startGameSegue"
 
     
+    @IBOutlet weak var animatedLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,6 +24,22 @@ class ViewController: UIViewController {
         // function that starts the game and get the words from list
         
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        animation()
+    }
+    
+    func animation(){
+        if let text = animatedLabel.text {
+            var newText = ""
+            for char in text {
+                newText += String(char)
+                animatedLabel.text = newText
+                RunLoop.current.run(until: Date()+0.3)
+            }
+        }
     }
     
     @IBAction func startGameButton(_ sender: UIButton) {
