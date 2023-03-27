@@ -19,7 +19,7 @@ class GameViewController: UIViewController {
     
     var roundsInTotal : Int = 10
     
-    var correctAnswers : Int = 0
+    let resultSegue = "goToResultSegue"
     
     @IBOutlet weak var timeLabel: UILabel!
 
@@ -34,26 +34,27 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        typeText.becomeFirstResponder()
         
         scoreLabel.text = "\(wordModel.score)"
         
         timeLabel?.text = "\(timeRemaining)"
         
-        typeText.addTarget(self, action: #selector(checkWord), for: .editingDidEndOnExit)
+        typeText.addTarget(self, action: #selector(checkWord), for: .editingChanged)
         
         startGame()
         
     }
     
     @objc func checkWord(){
-        wordMatch()
+        if let word = wordLabel.text, let inputWord = typeText.text,
+           inputWord.count == word.count {
+            wordMatch()
+        }
     }
     
     func startGame(){
         currentRound = 0
         roundsLabel.text = "\(currentRound)"
-        correctAnswers = 0
         startRound()
     }
     
@@ -64,6 +65,7 @@ class GameViewController: UIViewController {
         updateTimerText()
         showWord()
         typeText.text = ""
+        typeText.becomeFirstResponder()
         startTimer()
     }
     
@@ -82,16 +84,26 @@ class GameViewController: UIViewController {
         if word == inputWord {
             wordModel.score += 1
             scoreLabel.text = "\(wordModel.score)"
-            correctAnswers += 1
             
             if currentRound < roundsInTotal {
                 stopTimer()
                 startRound()
             } else {
-                //game over
+                endGameAndGoToResult()
             }
+        } else {
+            wordModel.score -= 1
+            scoreLabel.text = "\(wordModel.score)"
         }
     }
+    
+    func endGameAndGoToResult(){
+        if let resultVC = storyboard?.instantiateViewController(withIdentifier: "ResultViewController") as? ResultViewController {
+            resultVC.score = wordModel.score
+            present(resultVC, animated: true, completion: nil)
+        }
+    }
+       
     func startTimer(){
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self else {return}
@@ -115,10 +127,6 @@ class GameViewController: UIViewController {
         
     }
     
-    func endGameAndGoToResult(){
-        
-        
-    }
 }
 
 

@@ -9,9 +9,8 @@ import Foundation
 
 class WordModel {
     
-    var listOfWords : [String] = ["Frida", "Rune", "Bosse","Nisse"]
+    var listOfWords : [String] = ["Frida", "Rune", "Bosse","Nisse", "Johnny", "Bob", "Kalle", "Uffe", "Burken", "Bulten", "Peter", "Ronny", "Raffe", "Kaffe"]
     var score : Int = 10
-    
     
     func getRandomWord() -> String? {
         if listOfWords.isEmpty {
@@ -22,6 +21,7 @@ class WordModel {
         listOfWords.remove(at: randomIndex)
         return randomWord
     }
+    
 
    
 }

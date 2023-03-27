@@ -24,7 +24,6 @@ class ViewController: UIViewController {
     }
     
     @IBAction func startGameButton(_ sender: UIButton) {
-        startGame()
         
     }
     
@@ -33,10 +32,6 @@ class ViewController: UIViewController {
         
     }
     
-    func startGame(){
-        
-        
-    }
     
     func displayHighScore(){
         
