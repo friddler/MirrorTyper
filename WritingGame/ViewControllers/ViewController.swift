@@ -7,22 +7,25 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+
+    @IBOutlet weak var animatedLabel: UILabel!
+    
+    @IBOutlet weak var chooseDiff: UIPickerView!
+    
+    var difficulty = ["Easy", "Medium", "Hard"]
+    
+    var choosenDiff = ""
     
     let gameSegue = "startGameSegue"
-
-    
-    @IBOutlet weak var animatedLabel: UILabel!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
-        
-        //when startButton is pressed, go to new view, start the timer and show the first word.
-        // function that starts the game and get the words from list
-        
+        chooseDiff.dataSource = self
+        chooseDiff.delegate = self
         
     }
     
@@ -37,29 +40,45 @@ class ViewController: UIViewController {
             for char in text {
                 newText += String(char)
                 animatedLabel.text = newText
-                RunLoop.current.run(until: Date()+0.3)
+                RunLoop.current.run(until: Date()+0.2)
             }
         }
     }
     
     @IBAction func startGameButton(_ sender: UIButton) {
+        performSegue(withIdentifier: gameSegue, sender: self)
         
     }
     
-    
-    @IBAction func scoreButton(_ sender: UIButton) {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+            return 1
+    }
         
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+            return difficulty.count
+    }
+        
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return difficulty[row]
+    }
+    //changes the color of the text in pickerview
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        
+        let attributedString = NSAttributedString(string: difficulty[row], attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
+        
+        return attributedString
+    }
+   
+        
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        choosenDiff = difficulty[row]
     }
     
-    
-    func displayHighScore(){
-        
-        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let gameViewVC = segue.destination as? GameViewController {
+            gameViewVC.difficulty = choosenDiff
+        }
     }
-    
-    
-
-    
 }
 
 

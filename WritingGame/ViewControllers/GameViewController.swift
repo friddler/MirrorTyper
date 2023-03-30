@@ -9,15 +9,18 @@ import UIKit
 
 class GameViewController: UIViewController {
     
-    var wordModel = WordModel()
+    var wordList = WordList()
     
-    var timer : Timer?
+    var roundTimer : Timer?
+    var gameTimer : Timer?
     
     var timeRemaining : Int = 4
+    var gameTimeRemaining : Int = 60
+    var timeLeft : Int = 0
     
-    var currentRound : Int = 0
+    var score = 0
     
-    var roundsInTotal : Int = 10
+    var difficulty = ""
     
     let resultSegue = "goToResultSegue"
     
@@ -29,104 +32,125 @@ class GameViewController: UIViewController {
     
     @IBOutlet weak var scoreLabel: UILabel!
     
-    @IBOutlet weak var roundsLabel: UILabel!
+    @IBOutlet weak var gameTimerLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        typeText.layer.cornerRadius = 15
         
-        scoreLabel.text = "\(wordModel.score)"
+        typeText.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         
-        timeLabel?.text = "\(timeRemaining)"
-        
-        typeText.addTarget(self, action: #selector(checkWord), for: .editingChanged)
-        
+        timeDiff()
         startGame()
         
     }
     
-    @objc func checkWord(){
+    
+    func startGame(){
+        startGameTimer()
+        startRound()
+    }
+    
+    func startRound(){
+        timeRemaining = 4
+        updateTimerText()
+        showWord()
+        typeText.text = ""
+        typeText.becomeFirstResponder()
+        startRoundTimer()
+    }
+    
+    func showWord(){
+        if let firstWord = wordList.getRandomWord(){
+            wordLabel.text = firstWord
+        }
+    }
+    
+    @objc func textDidChange(){
         if let word = wordLabel.text, let inputWord = typeText.text,
            inputWord.count == word.count {
             wordMatch()
         }
     }
     
-    func startGame(){
-        currentRound = 0
-        roundsLabel.text = "\(currentRound)"
-        startRound()
-    }
-    
-    func startRound(){
-        currentRound += 1
-        roundsLabel.text = "\(currentRound)"
-        timeRemaining = 4
-        updateTimerText()
-        showWord()
-        typeText.text = ""
-        typeText.becomeFirstResponder()
-        startTimer()
-    }
-    
-    func showWord(){
-        if let firstWord = wordModel.getRandomWord(){
-            wordLabel.text = firstWord
-        }
-    }
-    
     func wordMatch(){
-        
-        guard let word = wordLabel.text, let inputWord = typeText.text else {
+        guard let word = wordLabel.text?.lowercased(), let inputWord = typeText.text?.lowercased() else {
             return
         }
         
         if word == inputWord {
-            wordModel.score += 1
-            scoreLabel.text = "\(wordModel.score)"
+            score += 1
+            scoreLabel.text = "\(score)"
+            stopRoundTimer()
+            startRound()
             
-            if currentRound < roundsInTotal {
-                stopTimer()
-                startRound()
-            } else {
-                endGameAndGoToResult()
-            }
-        } else {
-            wordModel.score -= 1
-            scoreLabel.text = "\(wordModel.score)"
+        } else if score > 0 {
+            score -= 1
+            scoreLabel.text = "\(score)"
         }
     }
     
-    func endGameAndGoToResult(){
-        if let resultVC = storyboard?.instantiateViewController(withIdentifier: "ResultViewController") as? ResultViewController {
-            resultVC.score = wordModel.score
-            present(resultVC, animated: true, completion: nil)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == resultSegue {
+            if let resultVC = segue.destination as? ResultViewController {
+                resultVC.resultScore = score
+            }
         }
     }
        
-    func startTimer(){
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+    func startRoundTimer(){
+        roundTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self else {return}
             self.timeRemaining -= 1
             if self.timeRemaining == 0 {
-                self.stopTimer()
+                self.stopRoundTimer()
                 self.startRound()
             }
-            self.updateTimerText()
+        self.updateTimerText()
         }
     }
     
     func updateTimerText(){
         timeLabel.text = "\(timeRemaining)"
+        gameTimerLabel.text = "\(gameTimeRemaining)"
+    
+    }
+
+    func stopRoundTimer(){
+        roundTimer?.invalidate()
+        roundTimer = nil
+    }
+    
+    func startGameTimer(){
+        gameTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            guard let self = self else {return}
+            self.gameTimeRemaining -= 1
+            if self.gameTimeRemaining == 0 {
+                self.stopGameTimer()
+            
+            }
+        self.updateTimerText()
+        }
+    }
+    
+    func stopGameTimer(){
+        gameTimer?.invalidate()
+        gameTimer = nil
+        performSegue(withIdentifier: resultSegue, sender: self)
         
     }
     
-    func stopTimer(){
-        timer?.invalidate()
-        timer = nil
+    func timeDiff(){
         
+        if difficulty == "Easy" {
+            gameTimeRemaining = 60
+        } else if difficulty == "Medium" {
+            gameTimeRemaining = 40
+        } else {
+            gameTimeRemaining = 20
+        }
     }
-    
 }
 
 
