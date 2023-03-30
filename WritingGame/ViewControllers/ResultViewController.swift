@@ -9,26 +9,43 @@ import UIKit
 
 class ResultViewController: UIViewController {
     
-
-    @IBOutlet weak var resultScore: UILabel!
+    var resultScore = 0
+    var highScore = 0
+    var diffSetting = ""
     
-    var score : Int = 0
     
+    @IBOutlet weak var resultScoreLabel: UILabel!
+    
+    @IBOutlet weak var nameLabel: UITextField!
+    
+    @IBOutlet weak var highScoreLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         resultScore.text = "You got \(score) nice!"
         
-
+        nameLabel.layer.cornerRadius = 15
         
-
+        resultScoreLabel.text = "\(resultScore)"
         
+        showHighScore()
         
         
         
     }
     
+    func showHighScore(){
+        
+        highScore = UserDefaults.standard.integer(forKey: diffSetting)
+        highScoreLabel.text = "\(highScore)"
+        
+        if resultScore > highScore {
+            highScore = resultScore
+            UserDefaults.standard.set(highScore, forKey: diffSetting)
+            highScoreLabel.text = "\(highScore)"
+        }
+        
+    }
     
-
+    
 }
