@@ -16,15 +16,12 @@ class ResultViewController: UIViewController {
     
     @IBOutlet weak var resultScoreLabel: UILabel!
     
-    @IBOutlet weak var nameLabel: UITextField!
     
     @IBOutlet weak var highScoreLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        nameLabel.layer.cornerRadius = 15
         
         resultScoreLabel.text = "\(resultScore)"
         

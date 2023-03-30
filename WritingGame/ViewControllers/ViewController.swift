@@ -10,6 +10,8 @@ import UIKit
 class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
 
+    @IBOutlet weak var imageView: UIImageView!
+    
     @IBOutlet weak var animatedLabel: UILabel!
     
     @IBOutlet weak var chooseDiff: UIPickerView!
@@ -27,6 +29,13 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         chooseDiff.dataSource = self
         chooseDiff.delegate = self
         
+        animateImage()
+        
+    }
+    
+    func animateImage(){
+        let gifImage = UIImage.gifImageWithName("image")
+        imageView.image = gifImage
     }
     
     override func viewDidAppear(_ animated: Bool) {
