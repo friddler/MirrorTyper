@@ -95,6 +95,7 @@ class GameViewController: UIViewController {
         if segue.identifier == resultSegue {
             if let resultVC = segue.destination as? ResultViewController {
                 resultVC.resultScore = score
+                resultVC.diffSetting = difficulty
             }
         }
     }

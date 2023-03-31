@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0EF418EB29D5F82B008AFAD9 /* gifLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF418EA29D5F82B008AFAD9 /* gifLoader.swift */; };
 		0EF418ED29D5FD82008AFAD9 /* image.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0EF418EC29D5FD82008AFAD9 /* image.gif */; };
+		0EF418EF29D6FD9E008AFAD9 /* resultimage.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0EF418EE29D6FD9E008AFAD9 /* resultimage.gif */; };
 		0EF5524629C88DD800C098AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF5524529C88DD800C098AD /* AppDelegate.swift */; };
 		0EF5524829C88DD800C098AD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF5524729C88DD800C098AD /* SceneDelegate.swift */; };
 		0EF5524A29C88DD800C098AD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF5524929C88DD800C098AD /* ViewController.swift */; };
@@ -43,6 +44,7 @@
 /* Begin PBXFileReference section */
 		0EF418EA29D5F82B008AFAD9 /* gifLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gifLoader.swift; sourceTree = "<group>"; };
 		0EF418EC29D5FD82008AFAD9 /* image.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = image.gif; sourceTree = "<group>"; };
+		0EF418EE29D6FD9E008AFAD9 /* resultimage.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = resultimage.gif; sourceTree = "<group>"; };
 		0EF5524229C88DD800C098AD /* WritingGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WritingGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF5524529C88DD800C098AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0EF5524729C88DD800C098AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				0EF5524529C88DD800C098AD /* AppDelegate.swift */,
 				0EF5524729C88DD800C098AD /* SceneDelegate.swift */,
 				0EF5524B29C88DD800C098AD /* Main.storyboard */,
+				0EF418EE29D6FD9E008AFAD9 /* resultimage.gif */,
 				0EF418EC29D5FD82008AFAD9 /* image.gif */,
 				0EF418EA29D5F82B008AFAD9 /* gifLoader.swift */,
 				0EF5525029C88DD900C098AD /* LaunchScreen.storyboard */,
@@ -262,6 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EF418EF29D6FD9E008AFAD9 /* resultimage.gif in Resources */,
 				0EF5525229C88DD900C098AD /* LaunchScreen.storyboard in Resources */,
 				0EF5524F29C88DD900C098AD /* Assets.xcassets in Resources */,
 				0EF418ED29D5FD82008AFAD9 /* image.gif in Resources */,
