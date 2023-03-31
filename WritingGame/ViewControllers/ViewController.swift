@@ -70,15 +70,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return difficulty[row]
     }
-    //changes the color of the text in pickerview
-    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        
-        let attributedString = NSAttributedString(string: difficulty[row], attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
-        
-        return attributedString
-    }
-   
-        
+
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         choosenDiff = difficulty[row]
     }
